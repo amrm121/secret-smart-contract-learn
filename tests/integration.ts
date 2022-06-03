@@ -88,7 +88,7 @@ const initializeContract = async (
 };
 
 const getFromFaucet = async (address: string) => {
-  await axios.get(`http://localhost:5000/faucet?address=${address}`);
+  await axios.get(`http://20.226.15.33:5000/faucet?address=${address}`);
 };
 
 async function getScrtBalance(userCli: SecretNetworkClient): Promise<string> {
@@ -117,7 +117,7 @@ async function fillUpFromFaucet(
 
 // Initialization procedure
 async function initializeAndUploadContract() {
-  let endpoint = "http://localhost:9091";
+  let endpoint = "http://20.226.15.33:9091";
   let chainId = "secretdev-1";
 
   const client = await initializeClient(endpoint, chainId);
