@@ -35,7 +35,7 @@ const initializeContract = async (
       builder: "",
     },
     {
-      gasLimit: 5000000,
+      gasLimit: 50000000,
     }
   );
 
