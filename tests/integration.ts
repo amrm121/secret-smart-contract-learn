@@ -194,7 +194,7 @@ async function resetTx(
       contractAddress: contractAddess,
       codeHash: contractHash,
       msg: {
-        reser: { count: 0 },
+        reset: { count: 0 },
       },
       sentFunds: [],
     },
@@ -252,6 +252,32 @@ async function test_increment_stress(
   );
 }
 
+async function test_reset(
+  client: SecretNetworkClient,
+  contractHash: string,
+  contractAddress: string
+) {
+  const onStartCount: number = await queryCount(
+    client,
+    contractHash,
+    contractAddress
+  );
+  let finishCount: number = 0;
+  
+  await resetTx(client, contractHash, contractAddress);
+
+  const afterReset: number = await queryCount(
+    client,
+    contractHash,
+    contractAddress
+  );
+  assert(
+    afterReset === finishCount,
+    `After resetting, counter expected to be ${finishCount}
+    instead of ${afterReset}`
+  );
+}
+
 async function test_gas_limits() {
   // There is no accurate way to measue gas limits but it is actually very recommended to make sure that the gas that is used by a specific tx makes sense
 }
@@ -287,5 +313,11 @@ async function runTestFunction(
     contractHash,
     contractAddress
   );
+  await runTestFunction(
+    test_reset,
+    client,
+    contractHash,
+    contractAddress
+  )
   await runTestFunction(test_gas_limits, client, contractHash, contractAddress);
 })();
