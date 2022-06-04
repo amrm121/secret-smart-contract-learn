@@ -2,6 +2,8 @@ import axios from "axios";
 import { Wallet, SecretNetworkClient, fromUtf8 } from "secretjs";
 import fs from "fs";
 import assert from "assert";
+import * as dotenv from "dotenv";
+require('dotenv').config({ path: __dirname+'/.env' });
 
 // Returns a client with which we can interact with secret network
 const initializeClient = async (endpoint: string, chainId: string) => {
@@ -88,7 +90,7 @@ const initializeContract = async (
 };
 
 const getFromFaucet = async (address: string) => {
-  await axios.get(`http://20.226.15.33:5000/faucet?address=${address}`);
+  await axios.get(`${process.env.REACT_APP_SERVER}:5000/faucet?address=${address}`);
 };
 
 async function getScrtBalance(userCli: SecretNetworkClient): Promise<string> {
@@ -117,7 +119,7 @@ async function fillUpFromFaucet(
 
 // Initialization procedure
 async function initializeAndUploadContract() {
-  let endpoint = "http://20.226.15.33:9091";
+  let endpoint = `${process.env.REACT_APP_SERVER}`+":9091";
   let chainId = "secretdev-1";
 
   const client = await initializeClient(endpoint, chainId);
